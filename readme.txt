@@ -1,4 +1,4 @@
-=== Image Quality ===
+=== Barebone Plugin ===
 Contributors: gagan0123
 Tags: barebone plugin skeleton
 Requires at least: 4.1
