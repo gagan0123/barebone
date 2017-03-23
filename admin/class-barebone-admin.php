@@ -38,7 +38,7 @@ if ( !class_exists( 'Barebone_Admin' ) ) {
 			//Barebone settings slug
 			$setting_id = BB_SETTINGS_SLUG;
 
-			//Image Quality Setting Label
+			//Barebone Setting Label
 			$label = '<label for="' . $setting_id . '">' . __( 'Barebone Setting', BB_TEXTDOMAIN ) . '</label>';
 
 			// This function will render the input field
@@ -60,13 +60,14 @@ if ( !class_exists( 'Barebone_Admin' ) ) {
 
 			$setting_id = BB_SETTINGS_SLUG;
 
-			//You need to add your own logic to check the input values being passed
-			$sanitized_input = $input;
+			//Sanitizing the input field
+			$sanitized_input = sanitize_title( $input );
 
 			$is_error = false;
 
 			$message = '';
 
+			//You need to add your own logic to check the input values being passed
 			if ( $sanitized_input === 'Hello World' ) {
 				//Input field is correctly set
 				return $sanitized_input;
