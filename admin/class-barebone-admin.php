@@ -39,7 +39,7 @@ if ( !class_exists( 'Barebone_Admin' ) ) {
 			$setting_id = BB_SETTINGS_SLUG;
 
 			//Barebone Setting Label
-			$label = '<label for="' . $setting_id . '">' . __( 'Barebone Setting', BB_TEXTDOMAIN ) . '</label>';
+			$label = '<label for="' . $setting_id . '">' . __( 'Barebone Setting', 'barebone_textdomain' ) . '</label>';
 
 			// This function will render the input field
 			$callback = array( $this, 'render_barebone_field' );
@@ -74,11 +74,11 @@ if ( !class_exists( 'Barebone_Admin' ) ) {
 			} else if ( empty( $input ) ) {
 				//Input is empty
 				$is_error	 = true;
-				$message	 = esc_html__( 'Barebone Setting field cannot be empty.', BB_TEXTDOMAIN );
+				$message	 = esc_html__( 'Barebone Setting field cannot be empty.', 'barebone_textdomain' );
 			} else {
 				//Input field is containing something that its not supposed to be
 				$is_error	 = true;
-				$message	 = esc_html__( 'You can only write "Hello World" in the Barebone Setting field.', BB_TEXTDOMAIN );
+				$message	 = esc_html__( 'You can only write "Hello World" in the Barebone Setting field.', 'barebone_textdomain' );
 			}
 
 			if ( $is_error ) {
@@ -101,8 +101,8 @@ if ( !class_exists( 'Barebone_Admin' ) ) {
 			$option_value	 = $barebone->get_option();
 
 			echo "<input type='text' name='{$setting_id}' id='{$setting_id}' value='{$option_value}' />";
-			?> <span class="description"><?php esc_html_e( 'Description you want to the right side of setting', BB_TEXTDOMAIN ); ?></span>
-			<p class="description"><?php esc_html_e( 'This could be some extra description about the setting.', BB_TEXTDOMAIN ); ?></p><?php
+			?> <span class="description"><?php esc_html_e( 'Description you want to the right side of setting', 'barebone_textdomain' ); ?></span>
+			<p class="description"><?php esc_html_e( 'This could be some extra description about the setting.', 'barebone_textdomain' ); ?></p><?php
 		}
 
 	}

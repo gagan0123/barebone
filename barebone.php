@@ -9,7 +9,7 @@
   Author URI:  https://gagan0123.com
   License:     GPLv2
   License URI: https://www.gnu.org/licenses/gpl-2.0.html
-  Text Domain: barebone
+  Text Domain: barebone_textdomain
   Domain Path: /languages
  */
 
@@ -20,7 +20,6 @@ if ( !defined( 'ABSPATH' ) ) {
 
 define( 'BB_PREFIX', 'bb' );
 define( 'BB_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
-define( 'BB_TEXTDOMAIN', BB_PREFIX );
 define( 'BB_SETTINGS_SLUG', BB_PREFIX . '_my_setting' );
 
 /**

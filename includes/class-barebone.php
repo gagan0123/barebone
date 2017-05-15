@@ -35,7 +35,7 @@ if ( !class_exists( 'Barebone' ) ) {
 		 * Initialize localization
 		 */
 		public function init_localization() {
-			load_plugin_textdomain( BB_TEXTDOMAIN );
+			load_plugin_textdomain( 'barebone_textdomain' );
 		}
 
 		public function init() {
