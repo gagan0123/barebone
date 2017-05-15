@@ -20,6 +20,9 @@ if ( !class_exists( 'Barebone_Admin' ) ) {
 			add_action( 'admin_init', array( $this, 'page_init' ) );
 		}
 
+		/**
+		 * @return Barebone_Admin Returns the current instance of the Barebone_Admin class
+		 */
 		public static function get_instance() {
 
 			// If the single instance hasn't been set, set it now.
