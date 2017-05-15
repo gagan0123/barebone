@@ -26,7 +26,7 @@ class BareBone_Tests extends WP_UnitTestCase {
 	function test_get_option() {
 		$option	 = $this->barebone->get_option();
 		$default = 'Hello World';
-		$this->assertEqual( $option, $default );
+		$this->assertEquals( $option, $default );
 	}
 
 }
