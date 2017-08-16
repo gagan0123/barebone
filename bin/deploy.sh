@@ -167,6 +167,7 @@ bin
 .git
 .gitattributes
 .gitignore
+.editorconfig
 map.conf
 nginx.log
 tests
