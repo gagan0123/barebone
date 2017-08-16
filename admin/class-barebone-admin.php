@@ -18,6 +18,7 @@ if ( !class_exists( 'Barebone_Admin' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'admin_init', array( $this, 'page_init' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		}
 
 		/**
@@ -52,6 +53,20 @@ if ( !class_exists( 'Barebone_Admin' ) ) {
 
 			//Registering the setting
 			register_setting( 'general', $setting_id, array( $this, 'sanitize' ) );
+		}
+
+		public function admin_enqueue_scripts( $hook ) {
+			if ( $hook != 'options-general.php' ) {
+				return;
+			}
+
+			//Registering our admin styles and scripts
+			wp_register_style( 'barebone-admin', BB_URL . 'admin/css/barebone-admin.min.css', array(), BB_VERSION );
+			wp_register_script( 'barebone-admin', BB_URL . 'admin/js/barebone-admin.min.js', array( 'jquery' ), BB_VERSION, true );
+
+			//Enqueueing our admin styles and scripts
+			wp_enqueue_style( 'barebone-admin' );
+			wp_enqueue_script( 'barebone-admin' );
 		}
 
 		/**

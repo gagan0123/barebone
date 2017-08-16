@@ -4,7 +4,7 @@
   Plugin Name: Barebone Plugin
   Plugin URI:  https://gagan0123.com/
   Description: Barebone plugin to get started with WordPress plugin development
-  Version:     1.0
+  Version:     2.0
   Author:      Gagan Deep Singh
   Author URI:  https://gagan0123.com
   License:     GPLv2
@@ -18,9 +18,21 @@ if ( !defined( 'ABSPATH' ) ) {
 	die;
 }
 
-define( 'BB_PREFIX', 'bb' );
-define( 'BB_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
-define( 'BB_SETTINGS_SLUG', BB_PREFIX . '_my_setting' );
+if ( !defined( 'BB_PREFIX' ) ) {
+	define( 'BB_PREFIX', 'bb' );
+}
+if ( !defined( 'BB_PATH' ) ) {
+	define( 'BB_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
+}
+if ( !defined( 'BB_SETTINGS_SLUG' ) ) {
+	define( 'BB_SETTINGS_SLUG', BB_PREFIX . '_my_setting' );
+}
+if ( !defined( 'BB_URL' ) ) {
+	define( 'BB_URL', trailingslashit( plugins_url( '', __FILE__ ) ) );
+}
+if ( !defined( 'BB_VERSION' ) ) {
+	define( 'BB_VERSION', '2.0' );
+}
 
 /**
  * The core plugin class

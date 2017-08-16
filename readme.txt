@@ -3,7 +3,7 @@ Contributors: gagan0123
 Tags: barebone plugin skeleton
 Requires at least: 4.1
 Tested up to: 4.7.3
-Stable tag: 1.0
+Stable tag: 2.0
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,3 +22,6 @@ This is where the description of this plugin goes
 
 = 1.0 =
 * Initial Public Release
+
+= 2.0 =
+* Integration of Grunt with lot of automation

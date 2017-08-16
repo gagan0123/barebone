@@ -16,6 +16,7 @@ if ( !class_exists( 'Barebone' ) ) {
 		public function __construct() {
 			add_action( 'init', array( $this, 'init' ) );
 			add_action( 'plugins_loaded', array( $this, 'init_localization' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
 
 		/**
@@ -40,6 +41,16 @@ if ( !class_exists( 'Barebone' ) ) {
 
 		public function init() {
 			$this->option = $this->get_option();
+		}
+
+		public function enqueue_scripts() {
+			//Registering our admin styles and scripts
+			wp_register_style( 'barebone', BB_URL . 'public/css/barebone.min.css', array(), BB_VERSION );
+			wp_register_script( 'barebone', BB_URL . 'public/js/barebone.min.js', array( 'jquery' ), BB_VERSION, true );
+
+			//Enqueueing our admin styles and scripts
+			wp_enqueue_style( 'barebone' );
+			wp_enqueue_script( 'barebone' );
 		}
 
 		public function get_option() {
