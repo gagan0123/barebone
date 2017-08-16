@@ -55,6 +55,7 @@ module.exports = function ( grunt ) {
 					domainPath: '/languages',
 					mainFile: 'barebone.php',
 					potFilename: 'barebone.pot',
+					updateTimestamp: false,
 					type: 'wp-plugin',
 					potHeaders: {
 						poedit: false
@@ -77,6 +78,10 @@ module.exports = function ( grunt ) {
 			wp_readme_to_markdown: {
 				files: [ 'readme.txt' ],
 				tasks: [ 'wp_readme_to_markdown' ]
+			},
+			makepot: {
+				files: [ '*.php', '**/*.php', '!node_modules/**', '!tests/**' ],
+				tasks: [ 'makepot' ]
 			}
 		}
 	} );
