@@ -1,0 +1,55 @@
+# Copyright (C) 2017 Gagan Deep Singh
+# This file is distributed under the GPLv2.
+msgid ""
+msgstr ""
+"Project-Id-Version: Barebone Plugin 2.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/barebone\n"
+"POT-Creation-Date: 2017-08-16 17:57:44+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Poedit: \n"
+"X-Generator: grunt-wp-i18n1.0.0\n"
+
+#: admin/class-barebone-admin.php:46
+msgid "Barebone Setting"
+msgstr ""
+
+#: admin/class-barebone-admin.php:95
+msgid "Barebone Setting field cannot be empty."
+msgstr ""
+
+#: admin/class-barebone-admin.php:99
+msgid "You can only write \"Hello World\" in the Barebone Setting field."
+msgstr ""
+
+#: admin/class-barebone-admin.php:122
+msgid "Description you want to the right side of setting"
+msgstr ""
+
+#: admin/class-barebone-admin.php:123
+msgid "This could be some extra description about the setting."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Barebone Plugin"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://gagan0123.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Barebone plugin to get started with WordPress plugin development"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Gagan Deep Singh"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://gagan0123.com"
+msgstr ""
