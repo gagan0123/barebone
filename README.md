@@ -1,4 +1,4 @@
-# Barebone Plugin #
+# Barebone #
 **Contributors:** [gagan0123](https://profiles.wordpress.org/gagan0123)  
 **Tags:** barebone plugin skeleton  
 **Requires at least:** 4.1  

@@ -1,7 +1,7 @@
 <?php
 
 /*
-  Plugin Name: Barebone Plugin
+  Plugin Name: Barebone
   Plugin URI:  https://gagan0123.com/
   Description: Barebone plugin to get started with WordPress plugin development
   Version:     2.0
@@ -9,7 +9,7 @@
   Author URI:  https://gagan0123.com
   License:     GPLv2
   License URI: https://www.gnu.org/licenses/gpl-2.0.html
-  Text Domain: barebone_textdomain
+  Text Domain: barebone
   Domain Path: /languages
  */
 

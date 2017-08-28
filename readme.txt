@@ -1,8 +1,8 @@
-=== Barebone Plugin ===
+=== Barebone ===
 Contributors: gagan0123
 Tags: barebone plugin skeleton
 Requires at least: 4.1
-Tested up to: 4.7.3
+Tested up to: 4.8.1
 Stable tag: 2.0
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
