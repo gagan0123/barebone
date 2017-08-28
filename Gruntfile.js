@@ -54,10 +54,11 @@ module.exports = function ( grunt ) {
 				options: {
 					domainPath: '/languages',
 					exclude: [ 'node_modules/.*', 'tests/.*' ],
-					mainFile: 'barebone.php',
-					potFilename: 'barebone.pot',
+					mainFile: '<%= pkg.main %>',
+					potFilename: '<%= pkg.name %>.pot',
 					potHeaders: {
-						poedit: false
+						poedit: false,
+						'report-msgid-bugs-to': '<%= pkg.bugs.url %>'
 					},
 					type: 'wp-plugin',
 					updateTimestamp: false
@@ -79,11 +80,7 @@ module.exports = function ( grunt ) {
 			wp_readme_to_markdown: {
 				files: [ 'readme.txt' ],
 				tasks: [ 'wp_readme_to_markdown' ]
-			},
-//			makepot: {
-//				files: [ '*.php', '**/*.php', '!node_modules/**', '!tests/**' ],
-//				tasks: [ 'makepot' ]
-//			}
+			}
 		}
 	} );
 
