@@ -1,14 +1,17 @@
 {
-    "name": "top-social-share",
+    "name": "barebone",
     "version": "1.0.1",
-    "main": "top-social-share.php",
+    "main": "barebone.php",
     "repository": {
         "type": "git",
-        "url": "https://git.gagan.pro/gagan0123/wp-org-plugins/top-social-share"
+        "url": "https://github.com/gagan0123/barebone"
     },
     "keywords": [
         "wordpress"
     ],
+    "bugs": {
+        "url": "https://github.com/gagan0123/barebone/issues"
+    },
     "author": "Gagan Deep Singh",
     "license": "GPL-2.0",
     "devDependencies": {
