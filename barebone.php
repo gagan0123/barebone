@@ -14,23 +14,23 @@
  */
 
 // If this file is called directly, abort.
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
-if ( !defined( 'BB_PREFIX' ) ) {
+if ( ! defined( 'BB_PREFIX' ) ) {
 	define( 'BB_PREFIX', 'bb' );
 }
-if ( !defined( 'BB_PATH' ) ) {
+if ( ! defined( 'BB_PATH' ) ) {
 	define( 'BB_PATH', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 }
-if ( !defined( 'BB_SETTINGS_SLUG' ) ) {
+if ( ! defined( 'BB_SETTINGS_SLUG' ) ) {
 	define( 'BB_SETTINGS_SLUG', BB_PREFIX . '_my_setting' );
 }
-if ( !defined( 'BB_URL' ) ) {
+if ( ! defined( 'BB_URL' ) ) {
 	define( 'BB_URL', trailingslashit( plugins_url( '', __FILE__ ) ) );
 }
-if ( !defined( 'BB_VERSION' ) ) {
+if ( ! defined( 'BB_VERSION' ) ) {
 	define( 'BB_VERSION', '2.0' );
 }
 

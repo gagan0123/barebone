@@ -1,17 +1,17 @@
 <?php
 
 // If this file is called directly, abort.
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
-if ( !class_exists( 'Barebone' ) ) {
+if ( ! class_exists( 'Barebone' ) ) {
 
 	class Barebone {
 
-		protected static $instance		 = null;
+		protected static $instance       = null;
 		private $option;
-		private static $default_option	 = 'Hello World';
+		private static $default_option   = 'Hello World';
 
 		public function __construct() {
 			add_action( 'init', array( $this, 'init' ) );
@@ -44,11 +44,11 @@ if ( !class_exists( 'Barebone' ) ) {
 		}
 
 		public function enqueue_scripts() {
-			//Registering our admin styles and scripts
+			// Registering our admin styles and scripts
 			wp_register_style( 'barebone', BB_URL . 'public/css/barebone.min.css', array(), BB_VERSION );
 			wp_register_script( 'barebone', BB_URL . 'public/js/barebone.min.js', array( 'jquery' ), BB_VERSION, true );
 
-			//Enqueueing our admin styles and scripts
+			// Enqueueing our admin styles and scripts
 			wp_enqueue_style( 'barebone' );
 			wp_enqueue_script( 'barebone' );
 		}
