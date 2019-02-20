@@ -49,6 +49,9 @@ echo "Versions match in readme.txt and PHP file. Let's proceed..."
 
 cd $GITPATH
 
+echo "Checking status of SVN URL"
+wget -S -O /dev/null - $SVNURL
+
 echo "Creating local copy of SVN repo ..."
 yes yes | svn co $SVNURL $SVNPATH
 
