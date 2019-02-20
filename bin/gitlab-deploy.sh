@@ -75,6 +75,7 @@ fi
 
 if [ ! -d "$SVNASSETS" ]; then
 echo "Creating assets directory..."
+mkdir $SVNASSETS
 svn add $SVNASSETS
 svn commit -m "Adding assets directory" --username=$SVN_USERNAME --password=$SVN_PASSWORD
 fi
