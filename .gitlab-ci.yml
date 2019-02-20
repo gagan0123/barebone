@@ -182,8 +182,6 @@ Deploy:
     stage: deploy
     environment: 
         name: deployment
-    variables:
-        SVN_REPO_URL: https://helixteamhub.cloud/Gagan/projects/barebone_plugin/repositories/subversion/barebone-plugin
     image: gagan0123/svn:latest
     when: manual
     script:
