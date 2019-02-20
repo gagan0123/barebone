@@ -1,16 +1,17 @@
 <?php
-
-/*
-  Plugin Name: Barebone
-  Plugin URI:  https://gagan0123.com/
-  Description: Barebone plugin to get started with WordPress plugin development
-  Version:     2.0
-  Author:      Gagan Deep Singh
-  Author URI:  https://gagan0123.com
-  License:     GPLv2
-  License URI: https://www.gnu.org/licenses/gpl-2.0.html
-  Text Domain: barebone
-  Domain Path: /languages
+/**
+ * Plugin Name: Barebone
+ * Plugin URI:  https://gagan0123.com/
+ * Description: Barebone plugin to get started with WordPress plugin development
+ * Version:     2.0
+ * Author:      Gagan Deep Singh
+ * Author URI:  https://gagan0123.com
+ * License:     GPLv2
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: barebone
+ * Domain Path: /languages
+ *
+ * @package Barebone_Plugin
  */
 
 // If this file is called directly, abort.
