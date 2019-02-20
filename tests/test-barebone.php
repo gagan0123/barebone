@@ -17,7 +17,7 @@ class BareBone_Tests extends WP_UnitTestCase {
 	 * Setting up the test set
 	 */
 	function setUp() {
-		$this->barebone          = Barebone::get_instance();
+		$this->barebone = Barebone::get_instance();
 	}
 
 	/**

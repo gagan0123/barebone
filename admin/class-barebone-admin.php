@@ -4,11 +4,11 @@
  *
  * @package Barebone/Admin
  */
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
-if ( !class_exists( 'Barebone_Admin' ) ) {
+if ( ! class_exists( 'Barebone_Admin' ) ) {
 
 	/**
 	 * Handles Admin side interactions of the plugin with WordPress.
@@ -26,7 +26,7 @@ if ( !class_exists( 'Barebone_Admin' ) ) {
 
 		/**
 		 * Start up
-		 * 
+		 *
 		 * @since 1.0
 		 * @access public
 		 */
@@ -37,7 +37,7 @@ if ( !class_exists( 'Barebone_Admin' ) ) {
 
 		/**
 		 * Returns the current instance of the class object.
-		 * 
+		 *
 		 * @since 1.0
 		 * @access public
 		 *
@@ -47,7 +47,7 @@ if ( !class_exists( 'Barebone_Admin' ) ) {
 
 			/** If the single instance hasn't been set, set it now. */
 			if ( null == self::$instance ) {
-				self::$instance = new self;
+				self::$instance = new self();
 			}
 
 			return self::$instance;
@@ -127,12 +127,12 @@ if ( !class_exists( 'Barebone_Admin' ) ) {
 				return $sanitized_input;
 			} elseif ( empty( $input ) ) {
 				// Input is empty
-				$is_error	 = true;
-				$message	 = esc_html__( 'Barebone Setting field cannot be empty.', 'barebone_textdomain' );
+				$is_error = true;
+				$message  = esc_html__( 'Barebone Setting field cannot be empty.', 'barebone_textdomain' );
 			} else {
 				// Input field is containing something that its not supposed to be.
-				$is_error	 = true;
-				$message	 = esc_html__( 'You can only write "Hello World" in the Barebone Setting field.', 'barebone_textdomain' );
+				$is_error = true;
+				$message  = esc_html__( 'You can only write "Hello World" in the Barebone Setting field.', 'barebone_textdomain' );
 			}
 
 			if ( $is_error ) {
@@ -154,9 +154,9 @@ if ( !class_exists( 'Barebone_Admin' ) ) {
 		 */
 		public function render_barebone_field() {
 			// Lets initialize our variables.
-			$setting_id		 = BB_SETTINGS_SLUG;
-			$barebone		 = Barebone::get_instance();
-			$option_value	 = $barebone->get_option();
+			$setting_id   = BB_SETTINGS_SLUG;
+			$barebone     = Barebone::get_instance();
+			$option_value = $barebone->get_option();
 
 			echo "<input type='text' name='{$setting_id}' id='{$setting_id}' value='{$option_value}' />";
 			?> <span class="description"><?php esc_html_e( 'Description you want to the right side of setting', 'barebone_textdomain' ); ?></span>

@@ -9,9 +9,9 @@ if ( ! class_exists( 'Barebone' ) ) {
 
 	class Barebone {
 
-		protected static $instance       = null;
+		protected static $instance = null;
 		private $option;
-		private static $default_option   = 'Hello World';
+		private static $default_option = 'Hello World';
 
 		public function __construct() {
 			add_action( 'init', array( $this, 'init' ) );
@@ -26,7 +26,7 @@ if ( ! class_exists( 'Barebone' ) ) {
 
 			// If the single instance hasn't been set, set it now.
 			if ( null == self::$instance ) {
-				self::$instance = new self;
+				self::$instance = new self();
 			}
 
 			return self::$instance;
