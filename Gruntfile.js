@@ -8,7 +8,10 @@ module.exports = function ( grunt ) {
 				options: {
 					screenshot_url: '<%= pkg.repository.url %>/raw/master/assets/{screenshot}.png',
 					post_convert: function ( file ) {
-						return "<img src='" + grunt.config.get( 'pkg' ).repository.url + "/raw/master/assets/icon-128x128.png' align='right' />\n\n" + file;
+						var travis_badge = "[![Build Status](https://travis-ci.org/gagan0123/barebone.svg?branch=master)](https://travis-ci.org/gagan0123/barebone)";
+						var gitlab_badge = "[![Build Status](https://gitlab.com/gagan0123/barebone-plugin/badges/master/build.svg)](https://gitlab.com/gagan0123/barebone-plugin/pipelines)";
+						var project_icon = "\n<img src='" + grunt.config.get( 'pkg' ).repository.url + "/raw/master/assets/icon-128x128.png' align='right' />\n\n";
+						return travis_badge + ' ' + gitlab_badge + project_icon + file;
 					}
 				},
 				files: {

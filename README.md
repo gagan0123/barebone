@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/gagan0123/barebone.svg?branch=master)](https://travis-ci.org/gagan0123/barebone) [![Build Status](https://gitlab.com/gagan0123/barebone-plugin/badges/master/build.svg)](https://gitlab.com/gagan0123/barebone-plugin/pipelines)
 <img src='https://github.com/gagan0123/barebone/raw/master/assets/icon-128x128.png' align='right' />
 
 # Barebone #
@@ -12,8 +13,6 @@
 This is just a barebone plugin to get started with plugin development
 
 ## Description ##
-
-<img src="https://travis-ci.org/gagan0123/barebone.svg?branch=master" alt="Travis Badge" />
 
 This is where the description of this plugin goes
 
