@@ -13,8 +13,6 @@ else
 echo "Private Key not defined"
 fi
 
-alias svn='svn --username=$SVN_USERNAME --password=$SVN_PASSWORD'
-
 if [ -n "$SVN_USERNAME" ] && [ -n "$SVN_PASSWORD" ] && [ -n "$SVN_REPO_URL" ]; then
 
 # main config
@@ -53,7 +51,7 @@ echo "Checking status of SVN URL"
 wget -S -O /dev/null - $SVNURL
 
 echo "Creating local copy of SVN repo ..."
-yes yes | svn co $SVNURL $SVNPATH
+yes yes | svn co --username=$SVN_USERNAME --password=$SVN_PASSWORD $SVNURL $SVNPATH
 
 if [ ! -d "$SVNPATH" ]; then echo "Could not checkout from SVN"; exit 1; fi
 
