@@ -55,9 +55,20 @@ yes yes | svn co --username=$SVN_USERNAME --password=$SVN_PASSWORD $SVNURL $SVNP
 
 if [ ! -d "$SVNPATH" ]; then echo "Could not checkout from SVN"; exit 1; fi
 
-if [ ! -d "$SVNTRUNK" ]; then mkdir $SVNTRUNK; echo "Creating trunk..."; fi
-if [ ! -d "$SVNPATH/tags" ]; then mkdir "$SVNPATH/tags"; echo "Creating tags..."; fi
+cd $SVNPATH
+if [ ! -d "$SVNTRUNK" ]; then 
+echo "Creating trunk..."
+mkdir $SVNTRUNK
+svn add $SVNTRUNK
+fi
 
+if [ ! -d "$SVNPATH/tags" ]; then
+echo "Creating tags..."
+mkdir "$SVNPATH/tags"
+svn add "$SVNPATH/tags"
+fi
+
+cd $GITPATH
 echo "Exporting the HEAD of master from git to the trunk of SVN"
 git checkout-index -a -f --prefix=$SVNTRUNK/
 
