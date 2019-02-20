@@ -25,6 +25,7 @@ GITPATH="$DIR/" # this file should be in the base of your git repository
 SVNPATH="/tmp/$PLUGINSLUG"
 SVNTRUNK="$SVNPATH/trunk"
 SVNTAGS="$SVNPATH/tags"
+SVNASSETS="$SVNPATH/assets"
 SVNURL="$SVN_REPO_URL"
 
 # Let's begin...
@@ -48,11 +49,12 @@ echo "Versions match in readme.txt and PHP file. Let's proceed..."
 
 cd $GITPATH
 
-echo "Checking status of SVN URL"
-wget -S -O /dev/null - $SVNURL
+echo "Git status"
+git remote -v
+git config --list
 
 echo "Creating local copy of SVN repo ..."
-yes yes | svn co --username=$SVN_USERNAME --password=$SVN_PASSWORD $SVNURL $SVNPATH
+yes yes | svn co $SVNURL $SVNPATH --quiet --username=$SVN_USERNAME --password=$SVN_PASSWORD
 
 if [ ! -d "$SVNPATH" ]; then echo "Could not checkout from SVN"; exit 1; fi
 
@@ -61,26 +63,50 @@ if [ ! -d "$SVNTRUNK" ]; then
 echo "Creating trunk..."
 mkdir $SVNTRUNK
 svn add $SVNTRUNK
-svn commit --username=$SVN_USERNAME --password=$SVN_PASSWORD -m "Adding Trunk directory"
+svn commit -m "Adding Trunk directory" --username=$SVN_USERNAME --password=$SVN_PASSWORD
 fi
 
 if [ ! -d "$SVNTAGS" ]; then
 echo "Creating tags..."
 mkdir $SVNTAGS
 svn add $SVNTAGS
-svn commit --username=$SVN_USERNAME --password=$SVN_PASSWORD -m "Adding Tags directory"
+svn commit -m "Adding Tags directory" --username=$SVN_USERNAME --password=$SVN_PASSWORD
+fi
+
+if [ ! -d "$SVNASSETS" ]; then
+echo "Creating assets directory..."
+svn add $SVNASSETS
+svn commit -m "Adding assets directory" --username=$SVN_USERNAME --password=$SVN_PASSWORD
 fi
 
 cd $GITPATH
 echo "Exporting the HEAD of master from git to the trunk of SVN"
 git checkout-index -a -f --prefix=$SVNTRUNK/
 
-echo "Ignoring github specific files and deployment script"
+# If assets directory is there in git repo, try to create assets in SVN
+if [ -d "$GITPATH/assets" ]; then
+echo "Exporting Assets"
+rm -rf $SVNASSETS/*
+cp $GITPATH/assets/* $SVNASSETS/
+# Check if there are any files to commit before running svn add
+cd $SVNASSETS
+if [[ $(svn status) ]]; then
+# Add all new files that are not set to be ignored
+echo "Committing assets"
+svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
+yes yes | svn commit -m "Adding/updating assets" --username=$SVN_USERNAME --password=$SVN_PASSWORD
+else
+echo "No new assets to commit"
+fi
+fi
+
+echo "Ignoring git specific files and deployment script"
 svn propset svn:ignore "deploy.sh
 deploy-common.sh
 readme.sh
 README.md
 bin
+assets
 .git
 .gitattributes
 .gitignore
@@ -92,18 +118,26 @@ Gruntfile.js
 package.json
 phpunit.xml
 phpunit.xml.dist
+.phpcs.xml.dist
+.phpcs.xml
 package-lock.json
 node_modules
 .sass-cache
 .gitlab-ci.yml
 .travis.yml" "$SVNPATH/trunk/"
 
-echo "Changing directory to SVN and committing to trunk"
+echo "Changing directory to SVN Trunk"
 cd $SVNTRUNK
 
+# Check if there are any files to commit before running svn add
+if [[ $(svn status) ]]; then
+echo "Committing to trunk"
 # Add all new files that are not set to be ignored
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
-yes yes | svn commit --username=$SVN_USERNAME --password=$SVN_PASSWORD -m "Tagging version $NEWVERSION1"
+yes yes | svn commit -m "Tagging version $NEWVERSION1" --username=$SVN_USERNAME --password=$SVN_PASSWORD
+else
+echo "Nothing new to commit in trunk"
+fi
 
 # Check if tag already exists in SVN, if not, then create new
 if [ ! -d "$SVNTAGS/$NEWVERSION1" ]; then
@@ -111,7 +145,7 @@ echo "Creating new SVN tag & committing it"
 cd $SVNPATH
 svn copy trunk/ tags/$NEWVERSION1/
 cd $SVNPATH/tags/$NEWVERSION1
-yes yes | svn commit --username=$SVN_USERNAME --password=$SVN_PASSWORD -m "Tagging version $NEWVERSION1"
+yes yes | svn commit -m "Tagging version $NEWVERSION1" --username=$SVN_USERNAME --password=$SVN_PASSWORD
 else
 echo "$NEWVERSION1 Tag already exists, skipping new tag creation"
 fi
