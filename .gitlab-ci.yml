@@ -181,7 +181,7 @@ WP4.0.25:PHP5.6:
 Deploy:
     stage: deploy
     environment: 
-        name: deploy/$CI_COMMIT_REF_NAME
+        name: deployment
     variables:
         SVN_REPO_URL: https://helixteamhub.cloud/Gagan/projects/barebone_plugin/repositories/subversion/barebone-plugin
     image: gagan0123/svn:latest
