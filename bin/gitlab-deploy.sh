@@ -100,13 +100,13 @@ cd $SVNTRUNK
 
 # Add all new files that are not set to be ignored
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
-yes yes | svn commit -m --username=$SVN_USERNAME --password=$SVN_PASSWORD "Tagging version $NEWVERSION1"
+yes yes | svn commit --username=$SVN_USERNAME --password=$SVN_PASSWORD -m "Tagging version $NEWVERSION1"
 
 echo "Creating new SVN tag & committing it"
 cd $SVNPATH
 svn copy trunk/ tags/$NEWVERSION1/
 cd $SVNPATH/tags/$NEWVERSION1
-yes yes | svn commit -m --username=$SVN_USERNAME --password=$SVN_PASSWORD "Tagging version $NEWVERSION1"
+yes yes | svn commit --username=$SVN_USERNAME --password=$SVN_PASSWORD -m "Tagging version $NEWVERSION1"
 
 else
 echo "No SVN Credentials sent"
