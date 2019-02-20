@@ -17,10 +17,29 @@ alias svn='svn --username=$SVN_USERNAME --password=$SVN_PASSWORD'
 
 if [ -n "$SVN_USERNAME" ] && [ -n "$SVN_PASSWORD" ] && [ -n "$SVN_REPO_URL" ]; then
 
+# main config
+export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/.. && pwd )"
+export PLUGINSLUG="$(basename $DIR)"  #must match with wordpress.org plugin slug
+export MAINFILE="$PLUGINSLUG.php" # this should be the name of your main php file in the wordpress plugin
+
+GITPATH="$DIR/" # this file should be in the base of your git repository
+
+SVNPATH="/tmp/$PLUGINSLUG"
+SVNTRUNK="$SVNPATH/trunk"
+SVNURL="$SVN_REPO_URL"
+
+# Let's begin...
+echo ".........................................."
+echo
+echo "Preparing to deploy wordpress plugin"
+echo
+echo ".........................................."
+echo
+
 # Check version in readme.txt is the same as plugin file
-NEWVERSION1=`grep "^Stable tag" readme.txt | awk -F' ' '{print $3}'`
+NEWVERSION1=`grep "^Stable tag" $GITPATH/readme.txt | awk -F' ' '{print $3}'`
 echo "readme version: $NEWVERSION1"
-NEWVERSION2=`grep -i "Version" barebone.php | head -n1 | awk -F':' '{print $2}' | awk -F' ' '{print $1}'`
+NEWVERSION2=`grep -i "Version" $GITPATH/$MAINFILE | head -n1 | awk -F':' '{print $2}' | awk -F' ' '{print $1}'`
 echo "$MAINFILE version: $NEWVERSION2"
 
 # Exit if versions don't match
@@ -28,12 +47,18 @@ if [ "$NEWVERSION1" != "$NEWVERSION2" ]; then echo "Versions don't match. Exitin
 
 echo "Versions match in readme.txt and PHP file. Let's proceed..."
 
-SVNPATH="/tmp/plugin-svn/"
+cd $GITPATH
+
 echo "Creating local copy of SVN repo ..."
-yes yes | svn co $SVN_REPO_URL $SVNPATH
+yes yes | svn co $SVNURL $SVNPATH
+
+if [ ! -d "$SVNPATH" ]; then echo "Could not checkout from SVN"; exit 1; fi
+
+if [ ! -d "$SVNTRUNK" ]; then mkdir $SVNTRUNK; echo "Creating trunk..."; fi
+if [ ! -d "$SVNPATH/tags" ]; then mkdir "$SVNPATH/tags"; echo "Creating tags..."; fi
 
 echo "Exporting the HEAD of master from git to the trunk of SVN"
-git checkout-index -a -f --prefix=$SVNPATH/trunk/
+git checkout-index -a -f --prefix=$SVNTRUNK/
 
 echo "Ignoring github specific files and deployment script"
 svn propset svn:ignore "deploy.sh
@@ -59,17 +84,17 @@ node_modules
 .travis.yml" "$SVNPATH/trunk/"
 
 echo "Changing directory to SVN and committing to trunk"
-cd $SVNPATH/trunk/
+cd $SVNTRUNK
 
 # Add all new files that are not set to be ignored
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
-svn commit --username=$SVNUSER -m "$COMMITMSG"
+svn commit -m "Tagging version $NEWVERSION1"
 
 echo "Creating new SVN tag & committing it"
 cd $SVNPATH
 svn copy trunk/ tags/$NEWVERSION1/
 cd $SVNPATH/tags/$NEWVERSION1
-svn commit --username=$SVNUSER -m "Tagging version $NEWVERSION1"
+svn commit -m "Tagging version $NEWVERSION1"
 
 else
 echo "No SVN Credentials sent"
