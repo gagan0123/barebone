@@ -24,6 +24,7 @@ GITPATH="$DIR/" # this file should be in the base of your git repository
 
 SVNPATH="/tmp/$PLUGINSLUG"
 SVNTRUNK="$SVNPATH/trunk"
+SVNTAGS="$SVNPATH/tags"
 SVNURL="$SVN_REPO_URL"
 
 # Let's begin...
@@ -60,12 +61,14 @@ if [ ! -d "$SVNTRUNK" ]; then
 echo "Creating trunk..."
 mkdir $SVNTRUNK
 svn add $SVNTRUNK
+svn commit --username=$SVN_USERNAME --password=$SVN_PASSWORD -m "Adding Trunk directory"
 fi
 
-if [ ! -d "$SVNPATH/tags" ]; then
+if [ ! -d "$SVNTAGS" ]; then
 echo "Creating tags..."
-mkdir "$SVNPATH/tags"
-svn add "$SVNPATH/tags"
+mkdir $SVNTAGS
+svn add $SVNTAGS
+svn commit --username=$SVN_USERNAME --password=$SVN_PASSWORD -m "Adding Tags directory"
 fi
 
 cd $GITPATH
