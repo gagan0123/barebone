@@ -4,6 +4,7 @@
  *
  * @package Barebone/Admin
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
@@ -46,7 +47,7 @@ if ( ! class_exists( 'Barebone_Admin' ) ) {
 		public static function get_instance() {
 
 			/** If the single instance hasn't been set, set it now. */
-			if ( null == self::$instance ) {
+			if ( null === self::$instance ) {
 				self::$instance = new self();
 			}
 
@@ -90,7 +91,7 @@ if ( ! class_exists( 'Barebone_Admin' ) ) {
 		 * @return void
 		 */
 		public function admin_enqueue_scripts( $hook ) {
-			if ( 'options-general.php' != $hook ) {
+			if ( 'options-general.php' !== $hook ) {
 				return;
 			}
 
@@ -114,7 +115,7 @@ if ( ! class_exists( 'Barebone_Admin' ) ) {
 
 			$setting_id = BB_SETTINGS_SLUG;
 
-			// Sanitizing the input field
+			// Sanitizing the input field.
 			$sanitized_input = sanitize_title( $input );
 
 			$is_error = false;
@@ -122,11 +123,11 @@ if ( ! class_exists( 'Barebone_Admin' ) ) {
 			$message = '';
 
 			// You need to add your own logic to check the input values being passed.
-			if ( $sanitized_input === 'Hello World' ) {
+			if ( 'Hello World' === $sanitized_input ) {
 				// Input field is correctly set.
 				return $sanitized_input;
 			} elseif ( empty( $input ) ) {
-				// Input is empty
+				// Input is empty.
 				$is_error = true;
 				$message  = esc_html__( 'Barebone Setting field cannot be empty.', 'barebone_textdomain' );
 			} else {
@@ -158,7 +159,7 @@ if ( ! class_exists( 'Barebone_Admin' ) ) {
 			$barebone     = Barebone::get_instance();
 			$option_value = $barebone->get_option();
 
-			echo "<input type='text' name='{$setting_id}' id='{$setting_id}' value='{$option_value}' />";
+			echo "<input type='text' name='" . esc_attr( $setting_id ) . "' id='" . esc_attr( $setting_id ) . "' value='" . esc_attr( $option_value ) . "' />";
 			?> <span class="description"><?php esc_html_e( 'Description you want to the right side of setting', 'barebone_textdomain' ); ?></span>
 			<p class="description"><?php esc_html_e( 'This could be some extra description about the setting.', 'barebone_textdomain' ); ?></p>
 			<?php
