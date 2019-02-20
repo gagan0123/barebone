@@ -186,5 +186,7 @@ Deploy:
         SVN_REPO_URL: https://helixteamhub.cloud/Gagan/projects/barebone_plugin/repositories/subversion/barebone-plugin
     image: gagan0123/svn:latest
     when: manual
+    only:
+        - tags
     script:
         - bash bin/gitlab-deploy.sh
