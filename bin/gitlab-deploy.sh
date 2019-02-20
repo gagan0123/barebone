@@ -20,7 +20,7 @@ if [ -n "$SVN_USERNAME" ] && [ -n "$SVN_PASSWORD" ] && [ -n "$SVN_REPO_URL" ]; t
 # main config
 export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/.. && pwd )"
 export PLUGINSLUG="$(basename $DIR)"  #must match with wordpress.org plugin slug
-export MAINFILE="$PLUGINSLUG.php" # this should be the name of your main php file in the wordpress plugin
+export MAINFILE="barebone.php" # this should be the name of your main php file in the wordpress plugin
 
 GITPATH="$DIR/" # this file should be in the base of your git repository
 
