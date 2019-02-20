@@ -13,6 +13,8 @@ This is just a barebone plugin to get started with plugin development
 
 ## Description ##
 
+<img src="https://travis-ci.org/gagan0123/barebone.svg?branch=master" alt="Travis Badge" />
+
 This is where the description of this plugin goes
 
 ## Installation ##
