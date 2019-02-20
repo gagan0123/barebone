@@ -105,11 +105,18 @@ cd $SVNTRUNK
 svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
 yes yes | svn commit --username=$SVN_USERNAME --password=$SVN_PASSWORD -m "Tagging version $NEWVERSION1"
 
+# Check if tag already exists in SVN, if not, then create new
+if [ ! -d "$SVNTAGS/$NEWVERSION1" ]; then
 echo "Creating new SVN tag & committing it"
 cd $SVNPATH
 svn copy trunk/ tags/$NEWVERSION1/
 cd $SVNPATH/tags/$NEWVERSION1
 yes yes | svn commit --username=$SVN_USERNAME --password=$SVN_PASSWORD -m "Tagging version $NEWVERSION1"
+else
+echo "$NEWVERSION1 Tag already exists, skipping new tag creation"
+fi
+
+echo "Deployment Done :) "
 
 else
 echo "No SVN Credentials sent"
