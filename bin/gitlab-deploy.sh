@@ -1,158 +1,153 @@
 #!/bin/bash
-echo "Running Deployment"
 
-echo "Current Working directory:"
-pwd
+# First some ArtWork, code is poetry
+echo '       ___       _________     ______________              _____        '
+echo '       __ |     / /__  __ \    ___  __ \__  /___  ________ ___(_)______ '
+echo '       __ | /| / /__  /_/ /    __  /_/ /_  /_  / / /_  __ `/_  /__  __ \'
+echo '       __ |/ |/ / _  ____/     _  ____/_  / / /_/ /_  /_/ /_  / _  / / /'
+echo '       ____/|__/  /_/          /_/     /_/  \__,_/ _\__, / /_/  /_/ /_/ '
+echo '                                                   /____/               '
+echo '_______       _____            ________     ______                        '
+echo '___    |___  ___  /______      ___  __ \_______  /__________ ____________ '
+echo '__  /| |  / / /  __/  __ \     __  /_/ /  _ \_  /_  _ \  __ `/_  ___/  _ \'
+echo '_  ___ / /_/ // /_ / /_/ /     _  _, _//  __/  / /  __/ /_/ /_(__  )/  __/'
+echo '/_/  |_\__,_/ \__/ \____/      /_/ |_| \___//_/  \___/\__,_/ /____/ \___/ '
 
-if [ -n "$PRIV_KEY" ]; then
-mkdir -p ~/.ssh
-echo "${PRIV_KEY}" | tr "," "\n" > ~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
-echo "Added Private key"
-else
-echo "Private Key not defined"
+# Check if global parameters are sent correctly
+if [ ! -n "$SVN_USERNAME" ]; then
+    echo "Environment Variable SVN_USERNAME not defined...";
+    export EXITSTATUS=1;
+fi
+if [ ! -n "$SVN_PASSWORD" ]; then
+    echo "Environment Variable SVN_PASSWORD not defined...";
+    export EXITSTATUS=1;
+fi
+if [ ! -n "$SVN_REPO_URL" ]; then
+    echo "Environment Variable SVN_REPO_URL not defined...";
+    export EXITSTATUS=1;
+fi
+if [ ! -n "$MAINFILE" ]; then
+    echo "Environment Variable MAINFILE (The main file of plugin) not defined...";
+    export EXITSTATUS=1;
+fi
+if [ -n "$EXITSTATUS" ]; then
+    echo "Please define the above mentioned environment variables and try again...";
+    exit 1;
 fi
 
-if [ -n "$SVN_USERNAME" ] && [ -n "$SVN_PASSWORD" ] && [ -n "$SVN_REPO_URL" ]; then
-
-# main config
-export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/.. && pwd )"
-export PLUGINSLUG="$(basename $DIR)"  #must match with wordpress.org plugin slug
-export MAINFILE="barebone.php" # this should be the name of your main php file in the wordpress plugin
-
-GITPATH="$DIR/" # this file should be in the base of your git repository
-
-SVNPATH="/tmp/$PLUGINSLUG"
-SVNTRUNK="$SVNPATH/trunk"
-SVNTAGS="$SVNPATH/tags"
-SVNASSETS="$SVNPATH/assets"
-SVNURL="$SVN_REPO_URL"
+# Defining all custom parameters
+export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/.. && pwd )";
+export PLUGINSLUG="$(basename $DIR)";
+export GITPATH="$DIR";
+export SVNPATH="/tmp/$PLUGINSLUG";
+export SVNTRUNK="$SVNPATH/trunk";
+export SVNTAGS="$SVNPATH/tags";
+export SVNASSETS="$SVNPATH/assets"
 
 # Let's begin...
-echo ".........................................."
-echo
-echo "Preparing to deploy wordpress plugin"
-echo
-echo ".........................................."
-echo
+echo "Preparing to deploy wordpress plugin..."
 
 # Check version in readme.txt is the same as plugin file
-NEWVERSION1=`grep "^Stable tag" $GITPATH/readme.txt | awk -F' ' '{print $3}'`
-echo "readme version: $NEWVERSION1"
-NEWVERSION2=`grep -i "Version" $GITPATH/$MAINFILE | head -n1 | awk -F':' '{print $2}' | awk -F' ' '{print $1}'`
-echo "$MAINFILE version: $NEWVERSION2"
+export NEWVERSION1=`grep "^Stable tag" $GITPATH/readme.txt | awk -F' ' '{print $3}'`;
+echo "readme.txt version: $NEWVERSION1";
+export NEWVERSION2=`grep -i "Version" $GITPATH/$MAINFILE | head -n1 | awk -F':' '{print $2}' | awk -F' ' '{print $1}'`;
+echo "$MAINFILE version: $NEWVERSION2";
 
 # Exit if versions don't match
-if [ "$NEWVERSION1" != "$NEWVERSION2" ]; then echo "Versions don't match. Exiting...."; exit 1; fi
+if [ "$NEWVERSION1" != "$NEWVERSION2" ]; then
+    echo "Versions don't match. Exiting...";
+    exit 1;
+fi
 
-echo "Versions match in readme.txt and PHP file. Let's proceed..."
+echo "Versions match in readme.txt and $MAINFILE file. Let's proceed...";
 
-cd $GITPATH
+echo "Creating local copy of SVN repo..."
+yes yes | svn co $SVN_REPO_URL $SVNPATH --quiet --username=$SVN_USERNAME --password=$SVN_PASSWORD
 
-echo "Git status"
-git remote -v
-git config --list
+# Exit if svn checkout failed
+if [ ! -d "$SVNPATH" ]; then
+    echo "Could not checkout from SVN. Please check above errors for help. Exiting...";
+    exit 1;
+fi
 
-echo "Creating local copy of SVN repo ..."
-yes yes | svn co $SVNURL $SVNPATH --quiet --username=$SVN_USERNAME --password=$SVN_PASSWORD
-
-if [ ! -d "$SVNPATH" ]; then echo "Could not checkout from SVN"; exit 1; fi
-
-cd $SVNPATH
+# Now check if required folders (trunk, tags and assets) are there in SVN repo
+cd "$SVNPATH"
 if [ ! -d "$SVNTRUNK" ]; then 
-echo "Creating trunk..."
-mkdir $SVNTRUNK
-svn add $SVNTRUNK
-svn commit -m "Adding Trunk directory" --username=$SVN_USERNAME --password=$SVN_PASSWORD
+    echo "Creating and committing trunk directory...";
+    mkdir "$SVNTRUNK";
+    svn add "$SVNTRUNK";
+    yes yes | svn commit -m "Trunk directory added" --username=$SVN_USERNAME --password=$SVN_PASSWORD;
+    echo "done";
 fi
 
 if [ ! -d "$SVNTAGS" ]; then
-echo "Creating tags..."
-mkdir $SVNTAGS
-svn add $SVNTAGS
-svn commit -m "Adding Tags directory" --username=$SVN_USERNAME --password=$SVN_PASSWORD
+    echo "Creating and committing tags directory...";
+    mkdir "$SVNTAGS";
+    svn add "$SVNTAGS";
+    yes yes | svn commit -m "Tags directory added" --username=$SVN_USERNAME --password=$SVN_PASSWORD;
+    echo "done";
 fi
 
 if [ ! -d "$SVNASSETS" ]; then
-echo "Creating assets directory..."
-mkdir $SVNASSETS
-svn add $SVNASSETS
-svn commit -m "Adding assets directory" --username=$SVN_USERNAME --password=$SVN_PASSWORD
+    echo "Creating and committing assets directory...";
+    mkdir "$SVNASSETS";
+    svn add "$SVNASSETS";
+    yes yes | svn commit -m "Adding assets directory" --username=$SVN_USERNAME --password=$SVN_PASSWORD;
+    echo "done";
 fi
 
-cd $GITPATH
-echo "Exporting the HEAD of master from git to the trunk of SVN"
-git checkout-index -a -f --prefix=$SVNTRUNK/
+# Change directory to git repo
+cd "$GITPATH";
+
 
 # If assets directory is there in git repo, try to create assets in SVN
 if [ -d "$GITPATH/assets" ]; then
-echo "Exporting Assets"
-rm -rf $SVNASSETS/*
-cp $GITPATH/assets/* $SVNASSETS/
-# Check if there are any files to commit before running svn add
-cd $SVNASSETS
-if [[ $(svn status) ]]; then
-# Add all new files that are not set to be ignored
-echo "Committing assets"
-svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
-yes yes | svn commit -m "Adding/updating assets" --username=$SVN_USERNAME --password=$SVN_PASSWORD
-else
-echo "No new assets to commit"
-fi
+    echo "Assets directory found, syncing assets locally...";
+    # Sync assets from git repo to svn repo
+    rsync -av --delete "$GITPATH/assets" "$SVNASSETS"
+    cd $SVNASSETS
+    # Check if there are any files to commit before running svn add
+    if [[ $(svn status) ]]; then
+        echo "Changes in assets detected, updating assets on SVN..."
+        # Add only new files to svn if there are any
+        if [[ $(svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}') ]]; then
+            svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add;
+        fi
+        yes yes | svn commit -m "Assets updated $NEWVERSION1" --username=$SVN_USERNAME --password=$SVN_PASSWORD;
+        echo "done";
+    else
+        echo "No changes detected in assets...";
+    fi
 fi
 
-echo "Ignoring git specific files and deployment script"
-svn propset svn:ignore "deploy.sh
-deploy-common.sh
-readme.sh
-README.md
-bin
-assets
-.git
-.gitattributes
-.gitignore
-.editorconfig
-map.conf
-nginx.log
-tests
-Gruntfile.js
-package.json
-phpunit.xml
-phpunit.xml.dist
-.phpcs.xml.dist
-.phpcs.xml
-package-lock.json
-node_modules
-.sass-cache
-.gitlab-ci.yml
-.travis.yml" "$SVNPATH/trunk/"
+cd "$GITPATH";
+echo "Syncing local svn trunk with git repo..."
+rsync -av --delete --exclude-from "$GITPATH/bin/rsync-excludes.txt" $GITPATH $SVNTRUNK
 
-echo "Changing directory to SVN Trunk"
 cd $SVNTRUNK
 
 # Check if there are any files to commit before running svn add
 if [[ $(svn status) ]]; then
-echo "Committing to trunk"
-# Add all new files that are not set to be ignored
-svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
-yes yes | svn commit -m "Tagging version $NEWVERSION1" --username=$SVN_USERNAME --password=$SVN_PASSWORD
+    echo "Changes in trunk detected, updating trunk...";
+    # Add only new files to svn if there are any
+    if [[ $(svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}') ]]; then
+        svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add;
+    fi
+    yes yes | svn commit -m "Trunk updated $NEWVERSION1" --username=$SVN_USERNAME --password=$SVN_PASSWORD;
+    echo "done";
 else
-echo "Nothing new to commit in trunk"
+    echo "No changes in trunk, continuing...";
 fi
 
+cd "$SVNPATH";
 # Check if tag already exists in SVN, if not, then create new
 if [ ! -d "$SVNTAGS/$NEWVERSION1" ]; then
-echo "Creating new SVN tag & committing it"
-cd $SVNPATH
-svn copy trunk/ tags/$NEWVERSION1/
-cd $SVNPATH/tags/$NEWVERSION1
-yes yes | svn commit -m "Tagging version $NEWVERSION1" --username=$SVN_USERNAME --password=$SVN_PASSWORD
+    echo "Creating new SVN tag...";
+    svn copy "trunk/" "tags/$NEWVERSION1/";
+    cd "$SVNPATH/tags/$NEWVERSION1";
+    yes yes | svn commit -m "Tagging version $NEWVERSION1" --username=$SVN_USERNAME --password=$SVN_PASSWORD;
 else
-echo "$NEWVERSION1 Tag already exists, skipping new tag creation"
+    echo "Version $version tag already exists, skipping tag creation...";
 fi
 
-echo "Deployment Done :) "
-
-else
-echo "No SVN Credentials sent"
-fi
+echo "Deployment Complete :) "
