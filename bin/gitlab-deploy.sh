@@ -1,17 +1,19 @@
 #!/bin/bash
 
 # First some ArtWork, code is poetry
-echo '       ___       _________     ______________              _____        '
-echo '       __ |     / /__  __ \    ___  __ \__  /___  ________ ___(_)______ '
-echo '       __ | /| / /__  /_/ /    __  /_/ /_  /_  / / /_  __ `/_  /__  __ \'
-echo '       __ |/ |/ / _  ____/     _  ____/_  / / /_/ /_  /_/ /_  / _  / / /'
-echo '       ____/|__/  /_/          /_/     /_/  \__,_/ _\__, / /_/  /_/ /_/ '
-echo '                                                   /____/               '
-echo '_______       _____            ________     ______                        '
-echo '___    |___  ___  /______      ___  __ \_______  /__________ ____________ '
-echo '__  /| |  / / /  __/  __ \     __  /_/ /  _ \_  /_  _ \  __ `/_  ___/  _ \'
-echo '_  ___ / /_/ // /_ / /_/ /     _  _, _//  __/  / /  __/ /_/ /_(__  )/  __/'
-echo '/_/  |_\__,_/ \__/ \____/      /_/ |_| \___//_/  \___/\__,_/ /____/ \___/ '
+echo '                                                                           ';
+echo '       ___       _________     ______________              _____           ';
+echo '       __ |     / /__  __ \    ___  __ \__  /___  ________ ___(_)______    ';
+echo '       __ | /| / /__  /_/ /    __  /_/ /_  /_  / / /_  __ `/_  /__  __ \   ';
+echo '       __ |/ |/ / _  ____/     _  ____/_  / / /_/ /_  /_/ /_  / _  / / /   ';
+echo '       ____/|__/  /_/          /_/     /_/  \__,_/ _\__, / /_/  /_/ /_/    ';
+echo '                                                   /____/                  ';
+echo '_______       _____            ________     ______                         ';
+echo '___    |___  ___  /______      ___  __ \_______  /__________ ____________  ';
+echo '__  /| |  / / /  __/  __ \     __  /_/ /  _ \_  /_  _ \  __ `/_  ___/  _ \ ';
+echo '_  ___ / /_/ // /_ / /_/ /     _  _, _//  __/  / /  __/ /_/ /_(__  )/  __/ ';
+echo '/_/  |_\__,_/ \__/ \____/      /_/ |_| \___//_/  \___/\__,_/ /____/ \___/  ';
+echo '                                                                           ';
 
 # Check if global parameters are sent correctly
 if [ ! -n "$SVN_USERNAME" ]; then
@@ -42,10 +44,10 @@ export GITPATH="$DIR";
 export SVNPATH="/tmp/$PLUGINSLUG";
 export SVNTRUNK="$SVNPATH/trunk";
 export SVNTAGS="$SVNPATH/tags";
-export SVNASSETS="$SVNPATH/assets"
+export SVNASSETS="$SVNPATH/assets";
 
 # Let's begin...
-echo "Preparing to deploy wordpress plugin..."
+echo "Preparing to deploy wordpress plugin...";
 
 # Check version in readme.txt is the same as plugin file
 export NEWVERSION1=`grep "^Stable tag" $GITPATH/readme.txt | awk -F' ' '{print $3}'`;
@@ -61,8 +63,8 @@ fi
 
 echo "Versions match in readme.txt and $MAINFILE file. Let's proceed...";
 
-echo "Creating local copy of SVN repo..."
-yes yes | svn co $SVN_REPO_URL $SVNPATH --quiet --username=$SVN_USERNAME --password=$SVN_PASSWORD
+echo "Creating local copy of SVN repo...";
+yes yes | svn co $SVN_REPO_URL $SVNPATH --quiet --username=$SVN_USERNAME --password=$SVN_PASSWORD;
 
 # Exit if svn checkout failed
 if [ ! -d "$SVNPATH" ]; then
@@ -104,16 +106,16 @@ cd "$GITPATH";
 if [ -d "$GITPATH/assets" ]; then
     echo "Assets directory found, syncing assets locally...";
     # Sync assets from git repo to svn repo
-    rsync -av --delete "$GITPATH/assets/" "$SVNASSETS/"
+    rsync -av --delete "$GITPATH/assets/" "$SVNASSETS/";
     cd $SVNASSETS
     # Check if there are any files to commit before running svn add
     if [[ $(svn status) ]]; then
-        echo "Changes in assets detected, updating assets on SVN..."
+        echo "Changes in assets detected, updating assets on SVN...";
         # Add only new files to svn if there are any
         if [[ $(svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}') ]]; then
             svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add;
         fi
-        # Delete delted files from svn also
+        # Delete deleted files from svn also
         if [[ $(svn status | grep -v "^.[ \t]*\..*" | grep "^!" | awk '{print $2}') ]]; then
             svn status | grep -v "^.[ \t]*\..*" | grep "^!" | awk '{print $2}' | xargs svn delete;
         fi
@@ -125,8 +127,8 @@ if [ -d "$GITPATH/assets" ]; then
 fi
 
 cd "$GITPATH";
-echo "Syncing local svn trunk with git repo..."
-rsync -av --delete --exclude-from "$GITPATH/bin/rsync-excludes.txt" "$GITPATH/" "$SVNTRUNK/"
+echo "Syncing local svn trunk with git repo...";
+rsync -av --delete --exclude-from "$GITPATH/bin/rsync-excludes.txt" "$GITPATH/" "$SVNTRUNK/";
 
 cd $SVNTRUNK
 
@@ -137,7 +139,7 @@ if [[ $(svn status) ]]; then
     if [[ $(svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}') ]]; then
         svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add;
     fi
-    # Delete delted files from svn also
+    # Delete deleted files from svn also
     if [[ $(svn status | grep -v "^.[ \t]*\..*" | grep "^!" | awk '{print $2}') ]]; then
         svn status | grep -v "^.[ \t]*\..*" | grep "^!" | awk '{print $2}' | xargs svn delete;
     fi
@@ -158,4 +160,4 @@ else
     echo "Version $version tag already exists, skipping tag creation...";
 fi
 
-echo "Deployment Complete :) "
+echo "Deployment Complete :) ";
