@@ -104,7 +104,7 @@ cd "$GITPATH";
 if [ -d "$GITPATH/assets" ]; then
     echo "Assets directory found, syncing assets locally...";
     # Sync assets from git repo to svn repo
-    rsync -av --delete "$GITPATH/assets" "$SVNASSETS"
+    rsync -av --delete "$GITPATH/assets/" "$SVNASSETS/"
     cd $SVNASSETS
     # Check if there are any files to commit before running svn add
     if [[ $(svn status) ]]; then
@@ -122,7 +122,7 @@ fi
 
 cd "$GITPATH";
 echo "Syncing local svn trunk with git repo..."
-rsync -av --delete --exclude-from "$GITPATH/bin/rsync-excludes.txt" $GITPATH $SVNTRUNK
+rsync -av --delete --exclude-from "$GITPATH/bin/rsync-excludes.txt" "$GITPATH/" "$SVNTRUNK/"
 
 cd $SVNTRUNK
 
