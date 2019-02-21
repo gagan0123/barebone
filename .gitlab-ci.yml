@@ -4,11 +4,12 @@ variables:
     MYSQL_ROOT_PASSWORD: mysql
 
 stages:
+    - verify
     - test
     - deploy
 
 PHPCS:PHP7.2:MySQL:
-    stage: test
+    stage: verify
     image: gagan0123/php:7.2
     script:
         - phpcs
