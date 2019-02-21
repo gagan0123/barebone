@@ -113,6 +113,10 @@ if [ -d "$GITPATH/assets" ]; then
         if [[ $(svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}') ]]; then
             svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add;
         fi
+        # Delete delted files from svn also
+        if [[ $(svn status | grep -v "^.[ \t]*\..*" | grep "^!" | awk '{print $2}') ]]; then
+            svn status | grep -v "^.[ \t]*\..*" | grep "^!" | awk '{print $2}' | xargs svn delete;
+        fi
         yes yes | svn commit -m "Assets updated $NEWVERSION1" --username=$SVN_USERNAME --password=$SVN_PASSWORD;
         echo "done";
     else
@@ -132,6 +136,10 @@ if [[ $(svn status) ]]; then
     # Add only new files to svn if there are any
     if [[ $(svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}') ]]; then
         svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add;
+    fi
+    # Delete delted files from svn also
+    if [[ $(svn status | grep -v "^.[ \t]*\..*" | grep "^!" | awk '{print $2}') ]]; then
+        svn status | grep -v "^.[ \t]*\..*" | grep "^!" | awk '{print $2}' | xargs svn delete;
     fi
     yes yes | svn commit -m "Trunk updated $NEWVERSION1" --username=$SVN_USERNAME --password=$SVN_PASSWORD;
     echo "done";
