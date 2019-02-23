@@ -33,5 +33,11 @@
     
     <!-- Minimum WordPress supported check. -->
     <config name="minimum_supported_wp_version" value="4.0"/>
+    
+    <rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array" value="barebone"/>
+		</properties>
+	</rule>
 
 </ruleset>
