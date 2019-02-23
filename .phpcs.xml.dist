@@ -36,7 +36,7 @@
     
     <rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" type="array" value="barebone"/>
+			<property name="text_domain" type="array" value="barebone_textdomain"/>
 		</properties>
 	</rule>
 
