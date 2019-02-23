@@ -1,5 +1,6 @@
 === Barebone ===
 Contributors: gagan0123
+Donate Link: PayPal.me/gagan0123
 Tags: barebone plugin skeleton
 Requires at least: 4.1
 Tested up to: 4.8.1
