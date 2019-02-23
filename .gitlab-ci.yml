@@ -8,9 +8,9 @@ stages:
     - test
     - deploy
 
-PHPCS:PHP7.2:MySQL:
+PHPCS:PHP7.2:
     stage: verify
-    image: gagan0123/php:7.2
+    image: gagan0123/php:phpcs
     script:
         - phpcs
     allow_failure: true
