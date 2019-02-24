@@ -6,7 +6,7 @@ variables:
 stages:
     - verify
     - test
-    - deploy
+    - release
 
 PHPCS:PHP7.2:
     stage: verify
@@ -179,11 +179,11 @@ WP-Latest:PHP7.3:
 #        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql 4.0.25 true
 #        - phpunit --configuration phpunit.xml.dist
 
-Deploy:
-    stage: deploy
+Release:
+    stage: release
     environment: 
-        name: deployment
+        name: release
     image: gagan0123/svn:latest
     when: manual
     script:
-        - bash bin/gitlab-deploy.sh
+        - bash bin/release-wp-plugin.sh
