@@ -2,79 +2,103 @@ sudo: false
 
 language: php
 
-notifications:
-  email:
-    on_success: never
-    on_failure: change
-
-branches:
-  only:
-    - master
-
 cache:
-  directories:
-    - vendor
-    - $HOME/.composer/cache
+    directories:
+        - vendor
+        - $HOME/.composer/cache
+  
+notifications:
+    email:
+        on_success: never
+        on_failure: change
 
-matrix:
-  include:
-    - php: 7.2
-      env: WP_VERSION=latest
-    - php: 5.6
-      env: WP_VERSION=latest
-    - php: 7.2
-      env: WP_VERSION=4.9.9
-    - php: 7.2
-      env: WP_VERSION=4.8.8
-    - php: 7.2
-      env: WP_VERSION=4.7.12
-    - php: 5.6
-      env: WP_VERSION=4.6.13
-    - php: 5.6
-      env: WP_VERSION=4.5.16
-    - php: 5.6
-      env: WP_VERSION=4.4.17
-    - php: 5.6
-      env: WP_VERSION=4.3.18
-    - php: 5.6
-      env: WP_VERSION=4.2.22
-    - php: 5.6
-      env: WP_VERSION=4.1.25
-    - php: 5.6
-      env: WP_VERSION=4.0.25
-    - php: 7.3
-      env: WP_VERSION=latest
-    - php: 7.3
-      env: WP_VERSION=nightly
-    - php: 7.2
-      env: WP_VERSION=nightly
-    - php: 5.6
-      env: WP_VERSION=nightly
-  allow_failures:
-    - php: 7.3
-      env: WP_VERSION=latest
-    - php: 7.3
-      env: WP_VERSION=nightly
-    - php: 7.2
-      env: WP_VERSION=nightly
-    - php: 5.6
-      env: WP_VERSION=nightly
+before_install:
+    # Speed up build time by disabling Xdebug.
+    - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
 
 before_script:
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - |
-    if [[ ! -z "$WP_VERSION" ]] ; then
-      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-      if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
-        composer global require "phpunit/phpunit=4.8.*"
-      else
-        composer global require "phpunit/phpunit=5.7.*"
+    - export PATH="$HOME/.composer/vendor/bin:$PATH"
+    - |
+      if [[ ! -z "$WP_VERSION" ]] ; then
+          bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+          composer global require "phpunit/phpunit=5.7.*"
       fi
-    fi
 
 script:
-  - |
-    if [[ ! -z "$WP_VERSION" ]] ; then
-      phpunit
-      WP_MULTISITE=1 phpunit
-    fi
+    - |
+      if [[ ! -z "$WP_VERSION" ]] ; then
+          phpunit
+          WP_MULTISITE=1 phpunit
+      fi
+
+stages:
+    - verify
+    - test
+
+jobs:
+    allow_failures:
+        - env: WP_VERSION=nightly
+    fast_finish: true
+    include:
+        - stage: verify
+          php: 7.2
+          before_install: phpenv config-rm xdebug.ini || echo 'No xdebug config.'
+          install:
+              - composer global require dealerdirect/phpcodesniffer-composer-installer wp-coding-standards/wpcs --update-no-dev
+          script:
+              - phpcs -i
+              - phpcs
+        - stage: test
+          php: 7.3
+          env: WP_VERSION=latest
+        - stage: test
+          php: 7.3
+          env: WP_VERSION=nightly
+        - stage: test
+          php: 7.2
+          env: WP_VERSION=latest
+        - stage: test
+          php: 7.2
+          env: WP_VERSION=nightly
+        - stage: test
+          php: 7.1
+          env: WP_VERSION=latest
+        - stage: test
+          php: 7.0
+          env: WP_VERSION=latest
+        - stage: test
+          php: 5.6
+          env: WP_VERSION=latest
+        - stage: test
+          php: 7.2
+          env: WP_VERSION=5.0.3
+        - stage: test
+          php: 7.2
+          env: WP_VERSION=4.9.9
+        - stage: test
+          php: 7.2
+          env: WP_VERSION=4.8.8
+        - stage: test
+          php: 7.2
+          env: WP_VERSION=4.7.12
+        - stage: test
+          php: 5.6
+          env: WP_VERSION=4.6.13
+        - stage: test
+          php: 5.6
+          env: WP_VERSION=4.5.16
+        - stage: test
+          php: 5.6
+          env: WP_VERSION=4.4.17
+        - stage: test
+          php: 5.6
+          env: WP_VERSION=4.3.18
+        - stage: test
+          php: 5.6
+          env: WP_VERSION=4.2.22
+        - stage: test
+          php: 5.6
+          env: WP_VERSION=4.1.25
+        - stage: test
+          php: 5.6
+          env: WP_VERSION=4.0.25
