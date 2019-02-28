@@ -189,7 +189,7 @@ Release:
     stage: release
     environment: 
         name: release
-    image: gagan0123/svn:latest
+    image: wpunit/php:svn-release
     when: manual
     script:
         - bash bin/release-wp-plugin.sh
