@@ -10,8 +10,9 @@ module.exports = function ( grunt ) {
 					post_convert: function ( file ) {
 						var travis_badge = "[![Build Status](https://travis-ci.org/gagan0123/barebone.svg?branch=master)](https://travis-ci.org/gagan0123/barebone)";
 						var gitlab_badge = "[![Build Status](https://gitlab.com/gagan0123/barebone-plugin/badges/master/build.svg)](https://gitlab.com/gagan0123/barebone-plugin/pipelines)";
+						var tested_on_badge = "[![Tested On](https://img.shields.io/badge/Tested%20on-WP%205.1%20%7C%205.0.3%20%7C%204.9.9%20%7C%204.8.8%20%7C%204.7.12%20%7C%204.6.13%20%7C%204.5.16%20%7C%204.4.17%20%7C%204.3.18%20%7C%204.2.22%20%7C%204.1.25%20%7C%204.0.25%20%7C%20nightly-brightgreen.svg?maxAge=2419200)](https://gitlab.com/gagan0123/barebone-plugin/pipelines)";
 						var project_icon = "\n<img src='" + grunt.config.get( 'pkg' ).repository.url + "/raw/master/assets/icon-128x128.png' align='right' />\n\n";
-						return travis_badge + ' ' + gitlab_badge + project_icon + file;
+						return travis_badge + ' ' + gitlab_badge + ' ' + tested_on_badge + project_icon + file;
 					}
 				},
 				files: {
