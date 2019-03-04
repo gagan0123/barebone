@@ -205,3 +205,5 @@ Release:
     when: manual
     script:
         - bash bin/release-wp-plugin.sh
+    only:
+        - tags
