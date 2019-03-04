@@ -3,7 +3,7 @@
  * Plugin Name: Barebone
  * Plugin URI:  https://gagan0123.com/
  * Description: Barebone plugin to get started with WordPress plugin development
- * Version:     2.0
+ * Version:     2.1
  * Author:      Gagan Deep Singh
  * Author URI:  https://gagan0123.com
  * License:     GPLv2

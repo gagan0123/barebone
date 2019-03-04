@@ -3,8 +3,8 @@ Contributors: gagan0123
 Donate Link: PayPal.me/gagan0123
 Tags: barebone plugin skeleton
 Requires at least: 4.1
-Tested up to: 4.8.1
-Stable tag: 2.0
+Tested up to: 5.1
+Stable tag: 2.1
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,12 +18,13 @@ This is where the description of this plugin goes
 
 | PHP | WordPress | Travis | Gitlab | Allow Fail |
 |-----|-----------|--------|--------|------------|
-| 7.3 | Latest    | Yes    | Yes    | Yes        |
+| 7.3 | Latest    | Yes    | Yes    |            |
 | 7.3 | Nightly   | Yes    | Yes    | Yes        |
 | 7.2 | Latest    | Yes    | Yes    |            |
 | 7.2 | Nightly   | Yes    | Yes    | Yes        |
 | 5.6 | Latest    | Yes    | Yes    |            |
 | 5.6 | Nightly   | Yes    | Yes    | Yes        |
+| 7.2 | 5.0.3     | Yes    | Yes    |            |
 | 7.2 | 4.9.9     | Yes    | Yes    |            |
 | 7.2 | 4.8.8     | Yes    | Yes    |            |
 | 7.2 | 4.7.12    | Yes    | Yes    |            |
@@ -42,8 +43,12 @@ This is where the description of this plugin goes
 
 == Changelog ==
 
-= 1.0 =
-* Initial Public Release
+= 2.1 =
+* Testing tag release
 
 = 2.0 =
 * Integration of Grunt with lot of automation
+
+= 1.0 =
+* Initial Public Release
+
