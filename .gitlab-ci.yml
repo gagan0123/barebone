@@ -196,6 +196,7 @@ WP4.0.25:PHP5.6:
         # Set up WordPress tests
         - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql 4.0.25 true
         - phpunit --configuration phpunit.xml.dist
+        - WP_MULTISITE=1 phpunit --configuration phpunit.xml.dist
 
 Release:
     stage: release
