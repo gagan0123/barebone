@@ -2,28 +2,11 @@ variables:
     # Configure mysql service (https://hub.docker.com/_/mysql/)
     MYSQL_DATABASE: wordpress_tests
     MYSQL_ROOT_PASSWORD: mysql
-    MYSQL_USER: mysql
 
 stages:
     - verify
     - test
     - release
-
-# Common before script for all tests
-before_script:
-    - |
-      if [[ ! -z "$WP_VERSION" ]] ; then
-          bash bin/install-wp-tests.sh "$MYSQL_DATABASE" "$MYSQL_USER" "$MYSQL_PASSWORD" mysql $WP_VERSION true
-          composer global require "phpunit/phpunit=5.7.*"
-      fi
-
-# Common script for all tests
-script:
-    - |
-      if [[ ! -z "$WP_VERSION" ]] ; then
-          phpunit --configuration phpunit.xml.dist
-          WP_MULTISITE=1 phpunit --configuration phpunit.xml.dist
-      fi
 
 PHPCS:PHP7.2:
     stage: verify
@@ -37,24 +20,30 @@ WP-Latest:PHP5.6:
     image: wpunit/php:5.6
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: latest
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql latest true
+        - phpunit --configuration phpunit.xml.dist
 
 WP-Latest:PHP7.2:
     stage: test
     image: wpunit/php:7.2
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: latest
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql latest true
+        - phpunit --configuration phpunit.xml.dist
     
 WP-Latest:PHP7.3:
     stage: test
     image: wpunit/php:7.3
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: latest
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql latest true
+        - phpunit --configuration phpunit.xml.dist
     allow_failure: true
 
 WP-Nightly:PHP5.6:
@@ -62,8 +51,10 @@ WP-Nightly:PHP5.6:
     image: wpunit/php:5.6
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: nightly
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql nightly true
+        - phpunit --configuration phpunit.xml.dist
     allow_failure: true
 
 WP-Nightly:PHP7.2:
@@ -71,8 +62,10 @@ WP-Nightly:PHP7.2:
     image: wpunit/php:7.2
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: nightly
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql nightly true
+        - phpunit --configuration phpunit.xml.dist
     allow_failure: true
 
 WP-Nightly:PHP7.3:
@@ -80,8 +73,10 @@ WP-Nightly:PHP7.3:
     image: wpunit/php:7.3
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: nightly
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql nightly true
+        - phpunit --configuration phpunit.xml.dist
     allow_failure: true
 
 WP5.0.3:PHP7.2:
@@ -91,8 +86,10 @@ WP5.0.3:PHP7.2:
         PHPUNIT_VERSION: 5
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: 5.0.3
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql 5.0.3 true
+        - phpunit --configuration phpunit.xml.dist
 
 WP4.9.9:PHP7.2:
     stage: test
@@ -101,8 +98,10 @@ WP4.9.9:PHP7.2:
         PHPUNIT_VERSION: 5
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: 4.9.9
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql 4.9.9 true
+        - phpunit --configuration phpunit.xml.dist
 
 WP4.8.8:PHP7.2:
     stage: test
@@ -111,8 +110,10 @@ WP4.8.8:PHP7.2:
         PHPUNIT_VERSION: 5
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: 4.8.8
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql 4.8.8 true
+        - phpunit --configuration phpunit.xml.dist
 
 WP4.7.12:PHP7.2:
     stage: test
@@ -121,64 +122,81 @@ WP4.7.12:PHP7.2:
         PHPUNIT_VERSION: 5
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: 4.7.12
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql 4.7.12 true
+        - phpunit --configuration phpunit.xml.dist
 
 WP4.6.13:PHP5.6:
     stage: test
     image: wpunit/php:5.6
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: 4.6.13
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql 4.6.13 true
+        - phpunit --configuration phpunit.xml.dist
 
 WP4.5.16:PHP5.6:
     stage: test
     image: wpunit/php:5.6
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: 4.5.16
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql 4.5.16 true
+        - phpunit --configuration phpunit.xml.dist
 
 WP4.4.17:PHP5.6:
     stage: test
     image: wpunit/php:5.6
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: 4.4.17
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql 4.4.17 true
+        - phpunit --configuration phpunit.xml.dist
 
 WP4.3.18:PHP5.6:
     stage: test
     image: wpunit/php:5.6
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: 4.3.18
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql 4.3.18 true
+        - phpunit --configuration phpunit.xml.dist
 
 WP4.2.22:PHP5.6:
     stage: test
     image: wpunit/php:5.6
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: 4.2.22
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql 4.2.22 true
+        - phpunit --configuration phpunit.xml.dist
 
 WP4.1.25:PHP5.6:
     stage: test
     image: wpunit/php:5.6
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: 4.1.25
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql 4.1.25 true
+        - phpunit --configuration phpunit.xml.dist
 
 WP4.0.25:PHP5.6:
     stage: test
     image: wpunit/php:5.6
     services:
         - mysql:5.6
-    variables:
-        WP_VERSION: 4.0.25
+    script:
+        # Set up WordPress tests
+        - bash bin/install-wp-tests.sh wordpress_tests root mysql mysql 4.0.25 true
+        - phpunit --configuration phpunit.xml.dist
+        - WP_MULTISITE=1 phpunit --configuration phpunit.xml.dist
 
 Release:
     stage: release
