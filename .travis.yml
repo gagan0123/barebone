@@ -71,34 +71,34 @@ jobs:
           env: WP_VERSION=latest
         - stage: test
           php: 7.2
-          env: WP_VERSION=5.0.3
+          env: WP_VERSION=5.0
         - stage: test
           php: 7.2
-          env: WP_VERSION=4.9.9
+          env: WP_VERSION=4.9
         - stage: test
           php: 7.2
-          env: WP_VERSION=4.8.8
+          env: WP_VERSION=4.8
         - stage: test
           php: 7.2
-          env: WP_VERSION=4.7.12
+          env: WP_VERSION=4.7
         - stage: test
           php: 5.6
-          env: WP_VERSION=4.6.13
+          env: WP_VERSION=4.6
         - stage: test
           php: 5.6
-          env: WP_VERSION=4.5.16
+          env: WP_VERSION=4.5
         - stage: test
           php: 5.6
-          env: WP_VERSION=4.4.17
+          env: WP_VERSION=4.4
         - stage: test
           php: 5.6
-          env: WP_VERSION=4.3.18
+          env: WP_VERSION=4.3
         - stage: test
           php: 5.6
-          env: WP_VERSION=4.2.22
+          env: WP_VERSION=4.2
         - stage: test
           php: 5.6
-          env: WP_VERSION=4.1.25
+          env: WP_VERSION=4.1
         - stage: test
           php: 5.6
-          env: WP_VERSION=4.0.25
+          env: WP_VERSION=4.0
